@@ -1,0 +1,36 @@
+--Kitaplık veritabanını oluştur
+CREATE DATABASE Kitaplik;
+--Kitaplar tablosunu oluştur
+CREATE TABLE Kitaplar (
+KitapAdi VARCHAR(255),
+KitapID INT PRIMARY KEY, YazarID INT, YayinYili YEAR, StokMiktari INT
+);
+--Yazarlar tablosunu oluştur
+CREATE TABLE Yazarlar (
+YazarID INT PRIMARY KEY, Adi VARCHAR(50), Soyadi VARCHAR(50), Dogum Tarihi DATE
+);
+--Ödünç Alma İşlemleri tablosunu oluştur
+CREATE TABLE OduncAlma (
+OduncID INT PRIMARY KEY,
+KitapID INT,
+OgrenciID INT,
+AlimTarihi DATE,
+Iade Tarihi DATE
+);
+-- Yazarlar tablosuna veri ekle
+INSERT INTO Yazarlar (YazarID, Adi, Soyadi, Dogum Tarihi) 
+VALUES (1, 'George', 'Orwell', '1903-06-25');
+--Kitaplar tablosuna veri ekle
+INSERT INTO Kitaplar (KitapID, KitapAdi, YazarID, YayinYili, StokMiktari) 
+VALUES (1, '1984', 1, 1949, 3);
+--Stokta olan tüm kitapları listele 
+SELECT KitapAdi, 
+StokMiktari FROM Kitaplar WHERE StokMiktari > 0;
+--Belirli bir yazarın kitaplarını listele 
+SELECT KitapAdi, YayinYili 
+FROM Kitaplar JOIN Yazarlar ON Kitaplar. YazarID = Yazarlar.YazarID 
+WHERE Yazarlar. Adi = 'George' AND Yazarlar. Soyadi = 'Orwell';
+--Ödünç alınan kitaplar ve ödünç alan öğrencilerin listesi 
+SELECT OduncAlma.OduncID, Kitaplar. KitapAdi, OduncAlma.OgrenciID 
+FROM OduncAlma
+JOIN Kitaplar ON OduncAlma.KitapID = Kitaplar.KitapID;
